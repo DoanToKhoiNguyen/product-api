@@ -8,7 +8,7 @@ services:
       - "27017:27017"
 
   product-api:
-    image: doantokhoinguyen/product-api:latest
+    image: <your-dockerhub-username>/product-api:latest
     container_name: product-api-prod
     ports:
       - "3000:3000"
@@ -17,3 +17,10 @@ services:
       - MONGO_URI=mongodb://mongodb:27017/productdb
     depends_on:
       - mongodb
+
+  watchtower:
+    image: containrrr/watchtower
+    container_name: watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval 30 product-api-prod
