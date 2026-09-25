@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: nammongodb-prod
+    ports:
+      - "27017:27017"
+
+  product-api:
+    image: doantokhoinguyen/product-api:latest
+    container_name: product-api-prod
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - MONGO_URI=mongodb://mongodb:27017/productdb
+    depends_on:
+      - mongodb
