@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   mongodb:
     image: mongo:latest
@@ -8,7 +6,7 @@ services:
       - "27017:27017"
 
   product-api:
-    image: <your-dockerhub-username>/product-api:latest
+    image: doantokhoinguyen/product-api:latest
     container_name: product-api-prod
     ports:
       - "3000:3000"

@@ -47,6 +47,11 @@ app.delete('/api/products/:pid', async (req, res) => {
   res.json({ message: 'Deleted successfully' });
 });
 
+// Đoạn code mới
+app.get('/api/version', (req, res) => {
+  res.json({ version: '2.0.0', message: 'Cập nhật CD thành công!' });
+});
+
 const PORT = process.env.PORT || 3000;
 const MONGO_URI = process.env.MONGO_URI;
 
