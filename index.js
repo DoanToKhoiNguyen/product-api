@@ -55,9 +55,10 @@ app.get('/api/version', (req, res) => {
 const PORT = process.env.PORT || 3000;
 const MONGO_URI = process.env.MONGO_URI;
 
+// Bật server ngay lập tức để tiếp nhận request
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+// Kết nối DB ngầm
 mongoose.connect(MONGO_URI)
-  .then(() => {
-    console.log('Connected to MongoDB');
-    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-  })
+  .then(() => console.log('Connected to MongoDB successfully'))
   .catch(err => console.error('Could not connect to MongoDB', err));
