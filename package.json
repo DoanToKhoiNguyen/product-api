@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-  "start": "node index.js",
-  "test": "curl --fail http://localhost:3000/health || exit 1"
+    "start": "node index.js",
+    "test": "curl --fail http://localhost:3000/health || exit 1"
   },
   "repository": {
     "type": "git",
@@ -22,7 +22,8 @@
   "dependencies": {
     "dotenv": "^18.0.3",
     "express": "^5.2.1",
-    "mongoose": "^9.10.2"
+    "mongoose": "^9.10.2",
+    "morgan": "^1.12.1"
   },
   "devDependencies": {
     "nodemon": "^3.1.14"

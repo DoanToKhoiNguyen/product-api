@@ -1,10 +1,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const morgan = require('morgan');
 require('dotenv').config();
 
 const Product = require('./models/Product');
 const app = express();
-
+app.use(morgan('dev'));
 app.use(express.json());
 
 // Route Healthcheck
