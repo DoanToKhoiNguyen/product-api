@@ -6,7 +6,7 @@ const Product = require('./models/Product');
 const app = express();
 
 app.use(express.json());
-/*
+
 // Route Healthcheck
 app.get('/health', (req, res) => {
   if (mongoose.connection.readyState === 1) {
@@ -14,7 +14,7 @@ app.get('/health', (req, res) => {
   }
   res.status(500).json({ status: 'DOWN', database: 'DISCONNECTED' });
 });
-*/
+
 // CRUD Routes
 app.post('/api/products', async (req, res) => {
   try {
