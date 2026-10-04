@@ -1,5 +1,5 @@
 # 1. Thư mục phụ thuộc (Dependency) - CỰC NẶNG, KHÔNG PUSH
-
+node_modules/
 
 .env
 
