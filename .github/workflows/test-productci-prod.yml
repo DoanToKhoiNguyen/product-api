@@ -34,7 +34,7 @@ jobs:
       - name: Run Integration Tests / Healthcheck Test
         env:
           MONGO_URI: mongodb://localhost:27017/testdb
-          PORT: 3000
+          PORT: 3000  
         run: |
           node index.js &
           sleep 5
