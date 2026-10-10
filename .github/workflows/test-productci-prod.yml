@@ -38,4 +38,4 @@ jobs:
         run: |
           node index.js &
           sleep 5
-          curl --fail http://localhost:3000/health || exit 1
+          curl --fail http://localhost:3000/healths || exit 1
