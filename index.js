@@ -44,8 +44,15 @@ app.put('/api/products/:pid', async (req, res) => {
 });
 
 app.delete('/api/products/:pid', async (req, res) => {
-  await Product.findOneAndDelete({ pid: req.params.pid });
-  res.json({ message: 'Deleted successfully' });
+  try {
+    const deletedProduct = await Product.findOneAndDelete({ pid: req.params.pid });
+    if (!deletedProduct) {
+      return res.status(404).json({ message: 'Không tìm thấy sản phẩm với pid này để xóa!' });
+    }
+    res.json({ message: 'Deleted successfully' });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
 });
 
 // Đoạn code mới
@@ -57,9 +64,12 @@ const PORT = process.env.PORT || 3000;
 const MONGO_URI = process.env.MONGO_URI;
 
 // Bật server ngay lập tức để tiếp nhận request
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+//app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
-// Kết nối DB ngầm
 mongoose.connect(MONGO_URI)
   .then(() => console.log('Connected to MongoDB successfully'))
   .catch(err => console.error('Could not connect to MongoDB', err));
+
+if (process.env.NODE_ENV !== 'test') {
+  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+}
