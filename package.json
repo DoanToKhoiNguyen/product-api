@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "test": "curl --fail http://localhost:3000/health || exit 1"
+    "test": "node test.js"
   },
   "repository": {
     "type": "git",
