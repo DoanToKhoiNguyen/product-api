@@ -1,15 +1,2 @@
-# 1. Thư mục phụ thuộc (Dependency) - CỰC NẶNG, KHÔNG PUSH
 node_modules/
-
 .env
-
-# 3. File thành phẩm sau khi Build (Build outputs)
-dist/
-build/
-
-# 4. File rác do hệ thống/trình soạn thảo tự sinh ra
-.DS_Store
-*.log
-npm-debug.log*
-.vscode/
-.idea/
