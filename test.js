@@ -1,5 +1,3 @@
-const { application } = require("express");
-
 const  BASE = process.env.API_URL || 'http://localhost:3000';
 
 const pid = 'CI' + Date.now();
