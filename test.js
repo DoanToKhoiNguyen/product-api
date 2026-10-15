@@ -1,58 +1,85 @@
-const BASE = process.env.API_URL || 'http://localhost:3000';
+const { application } = require("express");
 
-// pid ngau nhien moi lan chay de khong bi trung
+const  BASE = process.env.API_URL || 'http://localhost:3000';
+
 const pid = 'CI' + Date.now();
 
-// Ham kiem tra response, neu loi thi in ro noi dung API tra ve
-async function check(res, name) {
-  if (!res.ok) {
-    const text = await res.text();
-    throw new Error(`${name} fail: ${res.status} - ${text}`);
-  }
-  console.log('   OK', res.status);
-}
-
-async function main() {
+async function main()
+{
   console.log('1. Health check');
   let res = await fetch(`${BASE}/health`);
-  await check(res, 'Health');
 
-  console.log('2. Them san pham (POST)');
+  if(!res.ok){
+    throw new Error('Health check failed');
+  }
+
+  //Thêm sản phẩm
+  console.log('2. Thêm sản phẩm');
   res = await fetch(`${BASE}/api/products`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ pid, pname: 'CI Test', price: 100, quantity: 5 }),
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({
+      pid: pid,
+      pname: 'CI test',
+      price: 100,
+      quantity: 10
+    })
   });
-  await check(res, 'Create');
 
-  console.log('3. Xem danh sach (GET)');
+  if(!res.ok){
+    throw new Error('Thêm sản phẩm thất bại');
+  }
+
+  //Lấy danh sách sản phẩm
+  console.log('3. Lấy sản phẩm');
   res = await fetch(`${BASE}/api/products`);
-  await check(res, 'List');
 
-  console.log('4. Sua san pham (PUT)');
+  if(!res.ok){
+    throw new Error('Không thể lấy danh sách sản phẩm');
+  }
+
+  //Cập nhật sản phẩm
+  console.log('4. Cập nhật sản phẩm');
   res = await fetch(`${BASE}/api/products/${pid}`, {
     method: 'PUT',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ pid, pname: 'CI Test', price: 50, quantity: 5 }),
+    headers: {'content-Type': 'application/JSON'},
+    body: JSON.stringify({
+      pid: pid,
+      pname: 'CT test',
+      price: 50,
+      quantity: 10
+    })
   });
-  await check(res, 'Update');
+  if(!res.ok){
+    throw new Error('Không thể cập nhật sản phẩm');
+  }
 
-  console.log('5. Kiem tra gia da doi thanh 50');
+  //Kiểm tra sau khi cập nhật
+  console.log('5. Kiểm tra lại sản phẩm');
   res = await fetch(`${BASE}/api/products/${pid}`);
-  await check(res, 'Get one');
+  if(!res.ok){
+    throw new Error('Không xem được sản phẩm');
+  }
   const data = await res.json();
   const price = data.price ?? data.product?.price;
-  if (price !== 50) throw new Error(`Gia sai: mong doi 50, nhan ${price}`);
-  console.log('   OK, price =', price);
 
-  console.log('6. Xoa san pham (DELETE)');
-  res = await fetch(`${BASE}/api/products/${pid}`, { method: 'DELETE' });
-  await check(res, 'Delete');
+  if(price != 50){
+    throw new Error('Giá sản phẩm không đúng');
+  }
 
-  console.log('ALL TESTS PASSED');
+  //Xóa sản phẩm
+  console.log('6. Xóa sản phẩm');
+  res = await fetch(`${BASE}/api/products/${pid}`, {
+    method: 'DELETE'
+  });
+  if(!res.ok){
+    throw new Error('Xóa sản phẩm thất bại');
+  }
+
+  console.log('Hoàn tất');
 }
 
 main().catch((err) => {
-  console.error('TEST FAILED:', err.message);
+  console.error('Test failed: ', err.message);
   process.exit(1);
-});
+})
