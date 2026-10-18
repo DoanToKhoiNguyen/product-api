@@ -23,7 +23,6 @@ async function main()
       quantity: 10
     })
   });
-
   if(!res.ok){
     throw new Error('Thêm sản phẩm thất bại');
   }
